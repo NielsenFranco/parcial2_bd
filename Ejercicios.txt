@@ -1,0 +1,38 @@
+/* Consulta 1: número de pedidos por cliente */
+
+SELECT c.nombre, COUNT(p.id_pedido) AS total_pedidos
+FROM clientes c
+JOIN pedidos p ON c.id_cliente = p.id_cliente
+GROUP BY c.id_cliente
+ORDER BY total_pedidos DESC
+LIMIT 5;
+
+/* Consulta 2: calcula el precio promedio de los productos vendidos en cada presupuesto que supere 500 */
+
+SELECT pr.id_presupuesto, AVG(pp.precio) AS precio_promedio
+FROM presupuesto_productos pp
+JOIN presupuestos pr ON pp.id_presupuesto = pr.id_presupuesto
+GROUP BY pr.id_presupuesto
+HAVING AVG(pp.precio) > 500;
+
+/* Consulta 3: obtener el producto con el precio más alto de una lista de productos */
+
+SELECT p.nombre, MAX(p.precio_actual) AS precio_maximo
+FROM productos p
+WHERE p.id_producto IN (1, 2, 3, 4)
+GROUP BY p.nombre
+ORDER BY precio_maximo DESC;
+
+/* Consulta 4: insertar un nuevo producto */
+
+INSERT INTO productos (nombre, precio_actual, marca, modelo, descripcion, foto_url)
+VALUES ('Tablet Samsung', 349.99, 'Samsung', 'Tab A7', 'Tablet de 10 pulgadas', 'url_imagen5');
+
+
+/* Consulta 5: obtiene los clientes con sus últimos pedidos realizados  */
+
+SELECT c.nombre, p.fecha_pedido
+FROM clientes c
+JOIN pedidos p ON c.id_cliente = p.id_cliente
+ORDER BY p.fecha_pedido DESC
+LIMIT 3;
